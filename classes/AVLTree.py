@@ -1,8 +1,9 @@
-from Node import Node
-from Room import Room
+from .Node import Node
+from .Room import Room
 class AVLTree:
     def __init__(self, root: Node = None):
         self.root = root
+        
 
     def add(self, data: Room):
         self.root = AVLTree._add(self.root, data)
@@ -56,10 +57,3 @@ class AVLTree:
             AVLTree._printTree(node.right, level + 1)
             print('     ' * level, node.data)
             AVLTree._printTree(node.left, level + 1)
-
-avl = AVLTree()
-inp = input('input: ').split(' ')
-for i in inp:
-    room = Room(int(i), 'tuk tuk')
-    avl.add(room)
-    avl.printTree()

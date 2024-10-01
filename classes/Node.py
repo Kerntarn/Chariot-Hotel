@@ -1,4 +1,4 @@
-from Room import Room
+from .Room import Room
 class Node:
         def __init__(self, data: Room):
             self.data: Room = data
