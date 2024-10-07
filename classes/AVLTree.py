@@ -5,20 +5,20 @@ class AVLTree:
         self.root = root
         
 
-    def add(self, data: Room):
+    def add(self, data: Room) -> None:
         self.root = AVLTree._add(self.root, data)
-
     def _add(root: Node, data: Room) -> Node: 
         if not root:
             return Node(data)
 
         if data.number < root.data.number:
             root.left = AVLTree._add(root.left, data)
-        else:
+        elif data.number > root.data.number:
             root.right = AVLTree._add(root.right, data)
+        else:
+            return root
 
         root.setHeight()
-        #rebalance
         diff = root.balanceValue()
         if diff > 1:
             if root.right.balanceValue() < 0:
@@ -31,6 +31,19 @@ class AVLTree:
 
         root.setHeight()
         return root
+    
+    def remove(self, data: int) -> None:
+        self.root = AVLTree._remove(self.root)
+    def _remove(root: Node, data: int) -> Node:
+        ######################
+        return root
+
+    def find(self, data: int) -> Room:
+        node_found: Node = AVLTree._find(self.root, data)
+        return node_found.data
+    def _find(root: Node, data: int) -> Node:
+        ##################
+        return root
 
     def rotateLeftChild(root: Node) -> Node:
         left = root.left 
@@ -39,7 +52,6 @@ class AVLTree:
         root.setHeight()
         left.setHeight()
         return left
-
     def rotateRightChild(root: Node) -> Node:
         right = root.right
         root.right = right.left
@@ -48,12 +60,22 @@ class AVLTree:
         right.setHeight()
         return right 
 
-    def printTree(self):
+    def printTree(self) -> None:
         AVLTree._printTree(self.root)
         print()
-
-    def _printTree(node: Node, level: int = 0):
+    def _printTree(node: Node, level: int = 0) -> None:
         if node:
             AVLTree._printTree(node.right, level + 1)
             print('     ' * level, node.data)
             AVLTree._printTree(node.left, level + 1)
+
+    def inorder(self) -> list[Room]:
+        return AVLTree._inorder(self.root)
+    def _inorder(root: Node) -> list[Room]:
+        if root:
+            tmp = []
+            tmp += AVLTree._inorder(root.left)
+            tmp.append(root.data)
+            tmp += AVLTree._inorder(root.right)
+            return tmp
+        return []
