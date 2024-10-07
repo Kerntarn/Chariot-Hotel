@@ -16,7 +16,7 @@ class AVLTree:
         elif data.number > root.data.number:
             root.right = AVLTree._add(root.right, data)
         else:
-            return root
+            raise Exception(f"Room {data} already exists.")
 
         root.setHeight()
         diff = root.balanceValue()
@@ -40,10 +40,16 @@ class AVLTree:
 
     def find(self, data: int) -> Room:
         node_found: Node = AVLTree._find(self.root, data)
-        return node_found.data
+        return node_found.data if node_found else None
     def _find(root: Node, data: int) -> Node:
-        ##################
-        return root
+        if root:
+            if data > root.data.number:
+                return AVLTree._find(root.right, data)
+            elif data < root.data.number:
+                return AVLTree._find(root.left, data)
+            else:
+                return root
+        return None
 
     def rotateLeftChild(root: Node) -> Node:
         left = root.left 
@@ -79,3 +85,23 @@ class AVLTree:
             tmp += AVLTree._inorder(root.right)
             return tmp
         return []
+    
+    def count(self):
+        max_num, sum_of_room = AVLTree._count(self.root, 0)
+        return max_num - sum_of_room
+    def _count(root: Node, max: int) -> tuple:
+        if root:
+            if root.data.number > max:
+                max = root.data.number
+            s = 0
+            left = AVLTree._count(root.left, max)
+            s += left[1]
+            right = AVLTree._count(root.right, max)
+            s += right[1]
+            max = left[0] if left[0] > max else max
+            max = right[0] if right[0] > max else max
+
+            if root.data.passage_path == 'None':
+                return max, s
+            return max, s + 1
+        return max, 0

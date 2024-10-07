@@ -18,7 +18,6 @@ def get_data() -> AVLTree:
     return avl
 
 def save_data(avl: AVLTree) -> None:
-    #####
     tmp = avl.inorder()
     with open("./Database.txt", "w") as file:
         string = ''
@@ -26,7 +25,7 @@ def save_data(avl: AVLTree) -> None:
             string += f'{room.number},{room.passage_path}\n'
         file.write(string)
 
-0
+
 def insert_guests(avl: AVLTree, guests: list[int]):
     ##############
     pass
@@ -42,6 +41,7 @@ if __name__ == "__main__":
         if len(inp) != 1 or not inp.isnumeric():
             print("!!-- INVALID INPUT. PLEASE ENTER ONE OF NUMBERS ABOVE. --!")
             continue
+
 
         if inp == '1':
             guests = []
@@ -60,10 +60,10 @@ if __name__ == "__main__":
             if not room_no.isnumeric():
                 print("Invalid input, input isn\'t a number.")
                 continue
-            if 0: ########### room exist
-                print(f"Room {room_no} already exists.")
-                continue
-            avl.add(Room(int(room_no), 'None'))
+            try: 
+                avl.add(Room(int(room_no), 'None'))
+            except Exception as err:
+                print(err)
 
         elif inp == '3':
             room_no = input("Enter Room Number you wanna remove: ")
@@ -71,20 +71,24 @@ if __name__ == "__main__":
                 print("Invalid input, input isn\'t a number.")
                 continue
             avl.remove(int(room_no))
+
         elif inp == '4':
             pass
+
         elif inp == '5':
             room_no = input("Enter Room Number you wanna find: ")
             if not room_no.isnumeric():
                 print("Invalid input, input isn\'t a number.")
                 continue
-            room = avl.find()
+            room = avl.find(int(room_no))
             if room:
                 print(f'Passenger in room {room.number} arrive by path {room.passage_path}.')
             else:
                 print(f'Room {room_no} doesn\'t exist.')
+            
         elif inp == '6':
-            print(f"There's {avl.count_empty()} empty room(s)")
+            print(f"There's {avl.count()} empty room(s)")
+
         elif inp == '7':
             save_data(avl)
             break
