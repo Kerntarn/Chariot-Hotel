@@ -25,8 +25,7 @@ def save_data(avl: AVLTree) -> None:
             string += f'{room.number},{room.passage_path}\n'
         file.write(string)
 
-
-def insert_guests(avl: AVLTree, guests: list[int]):
+def insert_guests(avl: AVLTree, guests: list[int]) -> None:
     ##############
     pass
 
@@ -70,10 +69,14 @@ if __name__ == "__main__":
             if not room_no.isnumeric():
                 print("Invalid input, input isn\'t a number.")
                 continue
-            avl.remove(int(room_no))
+            avl.root, deleted = avl.remove(avl.root, int(room_no))
+            if not deleted:
+                print(f'Room {room_no} doesn\'t exist to be deleted.')
+            else:
+                print(f'Deleted room {room_no}.')
 
         elif inp == '4':
-            pass
+            print(f'Our hotel rooms are already sorted.')
 
         elif inp == '5':
             room_no = input("Enter Room Number you wanna find: ")
@@ -92,3 +95,5 @@ if __name__ == "__main__":
         elif inp == '7':
             save_data(avl)
             break
+        
+        print("-----------------------------------\n")

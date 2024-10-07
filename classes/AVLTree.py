@@ -105,3 +105,29 @@ class AVLTree:
                 return max, s
             return max, s + 1
         return max, 0
+    
+    def remove(self, root: Node, data: int) -> tuple[Node, bool]:   #leftmost right subtree
+        if not root:
+            return None, False
+        
+        if data < root.data.number:
+            root.left, deleted = self.remove(root.left, data)
+        elif data > root.data.number:
+            root.right, deleted = self.remove(root.right, data)
+
+        else:
+            deleted = True
+            
+            if not root.left:
+                return root.right, deleted
+            elif not root.right:
+                return root.left, deleted
+            
+            tmp = root.right
+            while tmp.left:
+                tmp = tmp.left
+            
+            root.data = tmp.data
+            root.right, _ = self.remove(root.right, tmp.data.number)
+
+        return root, deleted
