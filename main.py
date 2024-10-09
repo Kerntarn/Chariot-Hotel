@@ -27,6 +27,7 @@ def save_data(avl: AVLTree) -> None:
 
 def insert_guests(avl: AVLTree, guests: list[int]) -> None:
     ##############
+    
     pass
 
 if __name__ == "__main__":
@@ -41,18 +42,26 @@ if __name__ == "__main__":
             print("!!-- INVALID INPUT. PLEASE ENTER ONE OF NUMBERS ABOVE. --!")
             continue
 
-
         if inp == '1':
             guests = []
             print("Enter Number of Guest(s) in each path.")
+            all_room = [room.passage_path for room in avl.inorder()]
             for i in range(AMOUNT_OF_PATH):
                 number = input(f'Path {i+1}: ')
                 if not number.isnumeric():
                     print("Invalid input, set to default 0.")
                     number = '0'
+
+                number = int(number) + all_room.count(str(i+1))
                 guests.append(int(number))
-            insert_guests(avl, guests)
-            print(avl.inorder())
+            new_avl = AVLTree()
+            loop_limit = max(guests)
+            for i in range(loop_limit):
+                if i < guests[0]: new_avl.add(Room(i*4, '1'))
+                if i < guests[1]: new_avl.add(Room(i*4+1, '2'))
+                if i < guests[2]: new_avl.add(Room(i*4+2, '3'))
+                if i < guests[3]: new_avl.add(Room(i*4+3, '4'))
+            avl = new_avl
             
         elif inp == '2':
             room_no = input("Enter Room Number you wanna add: ")
