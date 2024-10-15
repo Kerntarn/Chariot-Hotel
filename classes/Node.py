@@ -20,3 +20,5 @@ class Node:
 
         def balanceValue(self) -> int:      
             return Node.getHeight(self.right) - Node.getHeight(self.left)
+        
+      

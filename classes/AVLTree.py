@@ -18,24 +18,7 @@ class AVLTree:
         else:
             raise Exception(f"Room {data} already exists.")
 
-        root.setHeight()
-        diff = root.balanceValue()
-        if diff > 1:
-            if root.right.balanceValue() < 0:
-                root.right = AVLTree.rotateLeftChild(root.right)
-            root = AVLTree.rotateRightChild(root)
-        elif diff < -1:
-            if root.left.balanceValue() > 0:
-                root.left = AVLTree.rotateRightChild(root.left)
-            root = AVLTree.rotateLeftChild(root)
-
-        root.setHeight()
-        return root
-    
-    def remove(self, data: int) -> None:
-        self.root = AVLTree._remove(self.root)
-    def _remove(root: Node, data: int) -> Node:
-        ######################
+        root = AVLTree.balance(root)
         return root
 
     def find(self, data: int) -> Room:
@@ -130,4 +113,21 @@ class AVLTree:
             root.data = tmp.data
             root.right, _ = self.remove(root.right, tmp.data.number)
 
+        root = AVLTree.balance(root)
+
         return root, deleted
+    
+    def balance(root: Node) -> Node:
+        root.setHeight()
+        diff = root.balanceValue()
+        if diff > 1:
+            if root.right.balanceValue() < 0:
+                root.right = AVLTree.rotateLeftChild(root.right)
+            root = AVLTree.rotateRightChild(root)
+        elif diff < -1:
+            if root.left.balanceValue() > 0:
+                root.left = AVLTree.rotateRightChild(root.left)
+            root = AVLTree.rotateLeftChild(root)
+
+        root.setHeight()
+        return root

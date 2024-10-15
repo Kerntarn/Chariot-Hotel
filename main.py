@@ -24,11 +24,7 @@ def save_data(avl: AVLTree) -> None:
         for room in tmp:
             string += f'{room.number},{room.passage_path}\n'
         file.write(string)
-
-def insert_guests(avl: AVLTree, guests: list[int]) -> None:
-    ##############
     
-    pass
 
 if __name__ == "__main__":
     avl = get_data()
